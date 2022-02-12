@@ -65,7 +65,7 @@ func (l *Logger) SetOutput(w io.Writer) {
 var std = New(os.Stderr, "", LstdFlags)
 
 func LinkBot(token, chat_id string) {
-	std.bot = Bot{token, chat_id, &sync.WaitGroup{}}
+	std.bot = Bot{token, chat_id}
 }
 
 // Default returns the standard logger used by the package-level output functions.
@@ -177,9 +177,9 @@ func (l *Logger) Output(calldepth int, s string) error {
 	_, err := l.out.Write(l.buf)
 	// byte to string
 	msg := string(l.buf[:len(l.buf)-1])
-	l.bot.wg.Add(1)
-	std.bot.SendMessage(msg)
-	l.bot.wg.Wait()
+	wg.Add(1)
+	go std.bot.SendMessage(msg)
+	wg.Wait()
 	return err
 }
 

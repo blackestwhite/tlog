@@ -52,7 +52,7 @@ type Logger struct {
 // after the log header if the Lmsgprefix flag is provided.
 // The flag argument defines the logging properties.
 func New(out io.Writer, prefix string, flag int) *Logger {
-	return &Logger{out: out, prefix: prefix, flag: flag}
+	return &Logger{out: out, prefix: prefix, flag: flag, bot: Bot{}}
 }
 
 // SetOutput sets the output destination for the logger.
@@ -64,7 +64,7 @@ func (l *Logger) SetOutput(w io.Writer) {
 
 var std = New(os.Stderr, "", LstdFlags)
 
-func NewBot(token, chat_id string) {
+func LinkBot(token, chat_id string) {
 	std.bot = Bot{token, chat_id, &sync.WaitGroup{}}
 }
 
@@ -271,6 +271,13 @@ func (l *Logger) Writer() io.Writer {
 	l.mu.Lock()
 	defer l.mu.Unlock()
 	return l.out
+}
+
+func (l *Logger) LinkBot(token, chat_id string) {
+	l.bot = Bot{
+		token: token,
+		admin: chat_id,
+	}
 }
 
 // SetOutput sets the output destination for the standard logger.

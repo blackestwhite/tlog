@@ -7,10 +7,11 @@ import (
 	"sync"
 )
 
+var wg sync.WaitGroup
+
 type Bot struct {
 	token string
 	admin string
-	wg    *sync.WaitGroup
 }
 
 func (b *Bot) SendMessage(msg string) {
@@ -25,6 +26,6 @@ func (b *Bot) SendMessage(msg string) {
 	if err != nil {
 		log.Fatal(err)
 	}
-	b.wg.Done()
+	wg.Done()
 	defer resp.Body.Close()
 }

@@ -177,9 +177,7 @@ func (l *Logger) Output(calldepth int, s string) error {
 	_, err := l.out.Write(l.buf)
 	// byte to string
 	msg := string(l.buf[:len(l.buf)-1])
-	wg.Add(1)
-	go std.bot.SendMessage(msg)
-	wg.Wait()
+	std.bot.SendMessage(msg)
 	return err
 }
 

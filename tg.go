@@ -5,10 +5,7 @@ import (
 	"fmt"
 	"log"
 	"net/http"
-	"sync"
 )
-
-var wg sync.WaitGroup
 
 type Bot struct {
 	token string
@@ -33,7 +30,6 @@ func (b *Bot) SendMessage(msg string) Response {
 		log.Fatal(err)
 	}
 	defer resp.Body.Close()
-	defer wg.Done()
 	res := Response{}
 	err = json.NewDecoder(resp.Body).Decode(&res)
 	if err != nil {

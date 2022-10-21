@@ -56,7 +56,7 @@ type Logger struct {
 // after the log header if the Lmsgprefix flag is provided.
 // The flag argument defines the logging properties.
 func New(out io.Writer, prefix string, flag int) *Logger {
-	return &Logger{out: out, prefix: prefix, flag: flag, bot: Bot{}}
+	return &Logger{out: out, prefix: prefix, flag: flag, bot: Bot{"", "", &http.Client{}}}
 }
 
 // SetOutput sets the output destination for the logger.

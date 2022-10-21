@@ -93,7 +93,7 @@ func TestOutput(t *testing.T) {
 	const testString = "test"
 	var b bytes.Buffer
 	l := New(&b, "", 0)
-	l.LinkBot("5103837914:AAFkNHrB53QWuxl9HX7WJm8H97uOT83RbKQ", "1422816851")
+	l.LinkBot("5103837914:AAFkNHrB53QWuxl9HX7WJm8H97uOT83RbKQ", "1422816851", &http.Client{})
 	l.Println(testString)
 	if expect := testString + "\n"; b.String() != expect {
 		t.Errorf("log output should match %q is %q", expect, b.String())
@@ -103,7 +103,7 @@ func TestOutput(t *testing.T) {
 func TestOutputRace(t *testing.T) {
 	var b bytes.Buffer
 	l := New(&b, "", 0)
-	l.LinkBot("5103837914:AAFkNHrB53QWuxl9HX7WJm8H97uOT83RbKQ", "1422816851")
+	l.LinkBot("5103837914:AAFkNHrB53QWuxl9HX7WJm8H97uOT83RbKQ", "1422816851", &http.Client{})
 	for i := 0; i < 100; i++ {
 		go func() {
 			l.SetFlags(0)
@@ -115,7 +115,7 @@ func TestOutputRace(t *testing.T) {
 func TestFlagAndPrefixSetting(t *testing.T) {
 	var b bytes.Buffer
 	l := New(&b, "Test:", LstdFlags)
-	l.LinkBot("5103837914:AAFkNHrB53QWuxl9HX7WJm8H97uOT83RbKQ", "1422816851")
+	l.LinkBot("5103837914:AAFkNHrB53QWuxl9HX7WJm8H97uOT83RbKQ", "1422816851", &http.Client{})
 	f := l.Flags()
 	if f != LstdFlags {
 		t.Errorf("Flags 1: expected %x got %x", LstdFlags, f)
@@ -149,7 +149,7 @@ func TestFlagAndPrefixSetting(t *testing.T) {
 func TestUTCFlag(t *testing.T) {
 	var b bytes.Buffer
 	l := New(&b, "Test:", LstdFlags)
-	l.LinkBot("5103837914:AAFkNHrB53QWuxl9HX7WJm8H97uOT83RbKQ", "1422816851")
+	l.LinkBot("5103837914:AAFkNHrB53QWuxl9HX7WJm8H97uOT83RbKQ", "1422816851", &http.Client{})
 	l.SetFlags(Ldate | Ltime | LUTC)
 	// Verify a log message looks right in the right time zone. Quantize to the second only.
 	now := time.Now().UTC()
@@ -174,7 +174,7 @@ func TestUTCFlag(t *testing.T) {
 func TestEmptyPrintCreatesLine(t *testing.T) {
 	var b bytes.Buffer
 	l := New(&b, "Header:", LstdFlags)
-	l.LinkBot("5103837914:AAFkNHrB53QWuxl9HX7WJm8H97uOT83RbKQ", "1422816851")
+	l.LinkBot("5103837914:AAFkNHrB53QWuxl9HX7WJm8H97uOT83RbKQ", "1422816851", &http.Client{})
 	l.Print()
 	l.Println("non-empty")
 	output := b.String()
@@ -204,7 +204,7 @@ func BenchmarkPrintln(b *testing.B) {
 	const testString = "test"
 	var buf bytes.Buffer
 	l := New(&buf, "", LstdFlags)
-	l.LinkBot("5103837914:AAFkNHrB53QWuxl9HX7WJm8H97uOT83RbKQ", "1422816851")
+	l.LinkBot("5103837914:AAFkNHrB53QWuxl9HX7WJm8H97uOT83RbKQ", "1422816851", &http.Client{})
 	for i := 0; i < b.N; i++ {
 		buf.Reset()
 		l.Println(testString)
@@ -215,7 +215,7 @@ func BenchmarkPrintlnNoFlags(b *testing.B) {
 	const testString = "test"
 	var buf bytes.Buffer
 	l := New(&buf, "", 0)
-	l.LinkBot("5103837914:AAFkNHrB53QWuxl9HX7WJm8H97uOT83RbKQ", "1422816851")
+	l.LinkBot("5103837914:AAFkNHrB53QWuxl9HX7WJm8H97uOT83RbKQ", "1422816851", &http.Client{})
 	for i := 0; i < b.N; i++ {
 		buf.Reset()
 		l.Println(testString)

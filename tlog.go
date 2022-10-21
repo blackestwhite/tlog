@@ -275,10 +275,11 @@ func (l *Logger) Writer() io.Writer {
 	return l.out
 }
 
-func (l *Logger) LinkBot(token, chat_id string) {
+func (l *Logger) LinkBot(token string, chat_id string, client *http.Client) {
 	l.bot = Bot{
-		token: token,
-		admin: chat_id,
+		token:  token,
+		admin:  chat_id,
+		client: client,
 	}
 }
 

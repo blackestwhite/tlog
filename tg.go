@@ -8,8 +8,9 @@ import (
 )
 
 type Bot struct {
-	token string
-	admin string
+	token  string
+	admin  string
+	client *http.Client
 }
 
 type Response struct {
@@ -20,12 +21,11 @@ type Response struct {
 func (b *Bot) SendMessage(msg string) Response {
 	url := fmt.Sprintf("https://api.telegram.org/bot%s/sendMessage?chat_id=%s&text=<pre>%s</pre>&parse_mode=html", b.token, b.admin, msg)
 	// http request to url
-	cli := &http.Client{}
 	req, err := http.NewRequest("GET", url, nil)
 	if err != nil {
 		log.Fatal(err)
 	}
-	resp, err := cli.Do(req)
+	resp, err := b.client.Do(req)
 	if err != nil {
 		log.Fatal(err)
 	}

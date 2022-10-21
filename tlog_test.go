@@ -9,6 +9,7 @@ package tlog
 import (
 	"bytes"
 	"fmt"
+	"net/http"
 	"os"
 	"regexp"
 	"strings"
@@ -52,7 +53,7 @@ var tests = []tester{
 
 // Test using Println("hello", 23, "world") or using Printf("hello %d world", 23)
 func testPrint(t *testing.T, flag int, prefix string, pattern string, useFormat bool) {
-	LinkBot("5103837914:AAFkNHrB53QWuxl9HX7WJm8H97uOT83RbKQ", "1422816851")
+	LinkBot("5103837914:AAFkNHrB53QWuxl9HX7WJm8H97uOT83RbKQ", "1422816851", &http.Client{})
 	buf := new(bytes.Buffer)
 	SetOutput(buf)
 	SetFlags(flag)

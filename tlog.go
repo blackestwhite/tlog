@@ -56,7 +56,7 @@ type Logger struct {
 // after the log header if the Lmsgprefix flag is provided.
 // The flag argument defines the logging properties.
 func New(out io.Writer, prefix string, flag int) *Logger {
-	return &Logger{out: out, prefix: prefix, flag: flag, bot: Bot{"", "", &http.Client{}}}
+	return &Logger{out: out, prefix: prefix, flag: flag}
 }
 
 // SetOutput sets the output destination for the logger.
@@ -69,7 +69,11 @@ func (l *Logger) SetOutput(w io.Writer) {
 var std = New(os.Stderr, "", LstdFlags)
 
 func LinkBot(token, chat_id string, client *http.Client) {
-	std.bot = Bot{token, chat_id, client}
+	std.bot = Bot{
+		admin:  chat_id,
+		token:  token,
+		client: client,
+	}
 }
 
 // Default returns the standard logger used by the package-level output functions.
@@ -181,7 +185,7 @@ func (l *Logger) Output(calldepth int, s string) error {
 	_, err := l.out.Write(l.buf)
 	// byte to string
 	msg := string(l.buf[:len(l.buf)-1])
-	std.bot.SendMessage(msg)
+	l.bot.SendMessage(msg)
 	return err
 }
 
@@ -275,10 +279,10 @@ func (l *Logger) Writer() io.Writer {
 	return l.out
 }
 
-func (l *Logger) LinkBot(token string, chat_id string, client *http.Client) {
+func (l *Logger) LinkBot(token, chat_id string, client *http.Client) {
 	l.bot = Bot{
-		token:  token,
 		admin:  chat_id,
+		token:  token,
 		client: client,
 	}
 }

@@ -1,7 +1,7 @@
 # tlog
 golang log but via telegram bot support
 
-[![tests](https://github.com/akbari-foundation/panel/actions/workflows/docker-image.yml/badge.svg)](https://github.com/akbari-foundation/panel/actions/workflows/docker-image.yml)
+[![tests](https://github.com/blackestwhite/tlog/actions/workflows/go.yml/badge.svg)](https://github.com/blackestwhite/tlog/actions/workflows/go.yml)
 
 ## how to use
 ```go

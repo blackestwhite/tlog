@@ -11,6 +11,6 @@ tlog.Print("Hello tlog")
 ## custom logger
 ```go
 var b bytes.Buffer
-l := New(&b, "prefix:", LstdFlags)
+l := tlog.New(&b, "prefix:", LstdFlags)
 l.LinkBot("BOT TOKEN", "CHAT ID", &http.Client{})
 ```

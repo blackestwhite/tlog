@@ -3,7 +3,14 @@ golang log but via telegram bot support
 
 ## how to use
 ```go
-tlog.LinkBot("token", "chat_id", &http.Client)
+tlog.LinkBot("BOT TOKEN", "CHAT ID", &http.Client{})
 tlog.Print("Hello tlog")
 ```
-chat_id is your telegram user identifier, you can find yours on @userinfobot
+**CHAT ID** is your telegram user identifier, you can find yours on [@userinfobot](https://t.me/userinfobot)
+
+## custom logger
+```go
+var b bytes.Buffer
+l := New(&b, "prefix:", LstdFlags)
+l.LinkBot("BOT TOKEN", "CHAT ID", &http.Client{})
+```
